@@ -5,6 +5,7 @@
 //  Created by Ambroise COLLON on 10/10/2017.
 //  Copyright © 2017 OpenClassrooms. All rights reserved.
 //
+// swiftlint:disable line_length
 
 import UIKit
 
@@ -18,6 +19,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var player1GameScoreLabel: UILabel!
     @IBOutlet weak var player2GameScoreLabel: UILabel!
     lazy var playerGameScoreLabels: [Player: UILabel] = [Player.one: player1GameScoreLabel, Player.two: player2GameScoreLabel]
+
+    @IBOutlet weak var player1GameScoreAdvantageLabel: UILabel!
+    @IBOutlet weak var player2GameScoreAdvantageLabel: UILabel!
+    lazy var playerGameScoreAdvantageLabels: [Player: UILabel] = [Player.one: player1GameScoreAdvantageLabel, Player.two: player2GameScoreAdvantageLabel]
 
     @IBOutlet weak var infoLabel: UILabel!
 
@@ -62,12 +67,12 @@ class ViewController: UIViewController {
     }
 
     private func updateAllSetsScore(forPlayer player: Player) {
-        for i in 0..<6 {
-            if i < match.sets.count {
-                let set = match.sets[i]
-                playerSetScoreLabels[player]![i].text = "\(set.scores[player]!)"
+        for indexLabel in 0..<5 {
+            if indexLabel < match.sets.count {
+                let set = match.sets[indexLabel]
+                playerSetScoreLabels[player]![indexLabel].text = "\(set.scores[player]!)"
             } else {
-                playerSetScoreLabels[player]![i].text = ""
+                playerSetScoreLabels[player]![indexLabel].text = ""
             }
         }
     }
@@ -75,6 +80,11 @@ class ViewController: UIViewController {
     private func updateGameScore(forPlayer player: Player) {
         let gameScore = match.currentGame.scores[player]
         playerGameScoreLabels[player]!.text = "\(gameScore!)"
+        if match.currentGame.advantagedPlayer == player {
+            playerGameScoreAdvantageLabels[player]!.isHidden = false
+        } else {
+            playerGameScoreAdvantageLabels[player]!.isHidden = true
+        }
     }
 
     private func updateInfoUI() {
@@ -113,4 +123,3 @@ class ViewController: UIViewController {
         infoLabel.text = "Qui a gagné le point ?"
     }
 }
-
